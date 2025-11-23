@@ -1,30 +1,21 @@
 import { useState, useRef, useEffect } from 'react';
 import { sendMessageToAI } from '../services/aiService';
-import { getRecentLogs } from '../services/firestore';
 import './ChatInterface.css';
-
-// Temporary user ID - will be replaced with Firebase Auth in later sprints
-const TEMP_USER_ID = 'demo_user_1';
 
 const ChatInterface = () => {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: 'Hello! Im your WellMind AI coach. I can help you understand your wellness patterns and provide personalized recommendations. How are you feeling today?',
+      content: 'Hi! I\'m your WellMind AI coach. I\'m here to help you with physical health, mental wellbeing, motivation, and overall wellness. What would you like to talk about today?',
       timestamp: new Date()
     }
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   const handleSendMessage = async () => {
@@ -41,23 +32,7 @@ const ChatInterface = () => {
     setLoading(true);
 
     try {
-      // Get recent wellness logs to provide context to AI
-      const [moodLogs, sleepLogs, hydrationLogs, workoutLogs] = await Promise.all([
-        getRecentLogs(TEMP_USER_ID, 'mood', 7),
-        getRecentLogs(TEMP_USER_ID, 'sleep', 7),
-        getRecentLogs(TEMP_USER_ID, 'hydration', 7),
-        getRecentLogs(TEMP_USER_ID, 'workout', 7)
-      ]);
-
-      const wellnessData = {
-        mood: moodLogs.success ? moodLogs.logs : [],
-        sleep: sleepLogs.success ? sleepLogs.logs : [],
-        hydration: hydrationLogs.success ? hydrationLogs.logs : [],
-        workout: workoutLogs.success ? workoutLogs.logs : []
-      };
-
-      // Send message to AI via Firebase Function
-      const response = await sendMessageToAI(TEMP_USER_ID, userMessage.content, wellnessData);
+      const response = await sendMessageToAI(userMessage.content);
 
       if (response.success) {
         const aiMessage = {
@@ -67,26 +42,28 @@ const ChatInterface = () => {
         };
         setMessages(prev => [...prev, aiMessage]);
       } else {
+        // Show the actual error message to help debug
+        const errorText = response.error || 'Unknown error occurred';
         const errorMessage = {
           role: 'assistant',
-          content: 'I apologize, but I encountered an error processing your message. Please try again in a moment.',
+          content: `I apologize, but I encountered an error: ${errorText}. Please check the browser console (F12) for more details.`,
           timestamp: new Date(),
           error: true
         };
         setMessages(prev => [...prev, errorMessage]);
+        console.error('Chatbot error:', response.error);
       }
     } catch (error) {
       console.error('Error sending message:', error);
       const errorMessage = {
         role: 'assistant',
-        content: 'I apologize, but I encountered an error processing your message. Please try again in a moment.',
+        content: `I apologize, but I encountered an error: ${error.message || 'Unknown error'}. Please check the browser console (F12) for more details.`,
         timestamp: new Date(),
         error: true
       };
       setMessages(prev => [...prev, errorMessage]);
     } finally {
       setLoading(false);
-      inputRef.current?.focus();
     }
   };
 
@@ -100,8 +77,8 @@ const ChatInterface = () => {
   return (
     <div className="chat-container">
       <div className="chat-header">
-        <h2>💬 AI Wellness Coach</h2>
-        <p className="chat-subtitle">Ask me anything about your wellness data</p>
+        <h2>💬 WellMind AI Coach</h2>
+        <p className="chat-subtitle">Your wellness companion for health, mental wellbeing, and motivation</p>
       </div>
 
       <div className="chat-messages">
@@ -131,9 +108,8 @@ const ChatInterface = () => {
 
       <div className="chat-input-container">
         <textarea
-          ref={inputRef}
           className="chat-input"
-          placeholder="Type your message... (Press Enter to send, Shift+Enter for new line)"
+          placeholder="Ask about health, mental wellbeing, motivation, or wellness..."
           value={inputMessage}
           onChange={(e) => setInputMessage(e.target.value)}
           onKeyPress={handleKeyPress}
@@ -160,4 +136,3 @@ const ChatInterface = () => {
 };
 
 export default ChatInterface;
-
