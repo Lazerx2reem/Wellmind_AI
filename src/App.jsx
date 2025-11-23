@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import LoggingButtons from './components/LoggingButtons';
+import ChatInterface from './components/ChatInterface';
 import './App.css';
 
 function App() {
@@ -33,11 +34,18 @@ function App() {
           </div>
         )}
 
-        <LoggingButtons />
+        <div className="main-content-grid">
+          <div className="content-section">
+            <LoggingButtons />
+          </div>
+          <div className="content-section">
+            <ChatInterface />
+          </div>
+        </div>
       </main>
 
       <footer className="app-footer">
-        <p>WellMind AI - Sprint 1: Foundation & Logging</p>
+        <p>WellMind AI - Sprint 2: AI Integration Complete 🚀</p>
       </footer>
     </div>
   );

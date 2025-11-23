@@ -4,7 +4,7 @@ An AI-powered wellness tracking application that helps users monitor their mood,
 
 ## 🚀 Project Status
 
-**Current Sprint: Sprint 1 - Foundation & Logging**
+**Current Sprint: Sprint 2 - AI Integration ✅**
 
 ### Completed Features (Sprint 1)
 - ✅ React project setup with Vite
@@ -13,8 +13,15 @@ An AI-powered wellness tracking application that helps users monitor their mood,
 - ✅ One-click wellness logging UI (Mood, Sleep, Hydration, Workout)
 - ✅ Data storage in Firestore
 
+### Completed Features (Sprint 2)
+- ✅ AI Coach chat interface
+- ✅ Firebase Functions setup with GPT-4 API integration
+- ✅ Real-time chat with AI wellness coach
+- ✅ Context-aware responses using user wellness data
+- ✅ Service layer for AI communication
+- ✅ Responsive grid layout for logging + chat
+
 ### Upcoming Features
-- Sprint 2: AI Coach integration (GPT-4 API)
 - Sprint 3: Trend visualization dashboard
 - Sprint 4: Privacy-first onboarding & responsive design
 - Sprint 5: Testing, deployment, and stretch goals
@@ -92,16 +99,25 @@ Wellmind_AI/
 ├── src/
 │   ├── components/
 │   │   ├── LoggingButtons.jsx    # One-click logging UI
-│   │   └── LoggingButtons.css
+│   │   ├── LoggingButtons.css
+│   │   ├── ChatInterface.jsx      # AI Coach chat interface
+│   │   └── ChatInterface.css
 │   ├── firebase/
 │   │   └── config.js              # Firebase initialization
 │   ├── services/
-│   │   └── firestore.js           # Firestore data operations
+│   │   ├── firestore.js           # Firestore data operations
+│   │   └── aiService.js           # AI Coach service layer
 │   ├── App.jsx                     # Main app component
 │   ├── App.css
 │   ├── main.jsx                    # App entry point
 │   └── index.css
+├── functions/
+│   ├── index.js                    # Firebase Functions (GPT-4 integration)
+│   ├── package.json
+│   └── .eslintrc.js
 ├── public/
+├── firebase.json                   # Firebase Functions configuration
+├── FUNCTIONS_SETUP.md              # Firebase Functions setup guide
 ├── .env.example                    # Environment variables template
 ├── package.json
 └── README.md
@@ -129,16 +145,18 @@ All logs are stored in Firestore with timestamps for trend analysis.
 ## 📝 Notes
 
 - Currently using a temporary user ID (`demo_user_1`) for testing
-- Firebase Authentication will be implemented in Sprint 2
+- Firebase Authentication will be implemented in Sprint 4
 - The app will show a warning banner if Firebase is not configured
 - All data is stored in Firestore with proper timestamps
+- AI Coach requires Firebase Functions to be deployed and OpenAI API key configured
+- See `FUNCTIONS_SETUP.md` for Firebase Functions setup instructions
 
-## 🚧 Next Steps (Sprint 2)
+## 🚧 Next Steps (Sprint 3)
 
-1. Build AI coach chat interface
-2. Integrate GPT-4 API via Firebase Functions
-3. Test AI chat responses
-4. Connect AI recommendations to user data
+1. Build trend visualization dashboard
+2. Add charts and graphs for wellness data
+3. Implement weekly/monthly summaries
+4. Create insights and pattern recognition
 
 ## 📚 Tech Stack
 

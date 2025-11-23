@@ -44,6 +44,20 @@ body {
   padding: 2rem 0;
 }
 
+.main-content-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  padding: 0 2rem;
+}
+
+.content-section {
+  display: flex;
+  flex-direction: column;
+}
+
 .warning-banner {
   max-width: 1200px;
   margin: 0 auto 2rem;
@@ -71,7 +85,20 @@ body {
   box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
+.content-section {
+  display: flex;
+  flex-direction: column;
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+  .main-content-grid {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+}
+
 @media (max-width: 768px) {
   .header-content h1 {
     font-size: 2rem;
@@ -83,5 +110,10 @@ body {
 
   .app-main {
     padding: 1rem 0;
+  }
+
+  .main-content-grid {
+    gap: 1.5rem;
+    padding: 0 1rem;
   }
 }
