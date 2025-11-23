@@ -3,6 +3,11 @@
  * Handles AI Coach integration with GPT-4 API
  */
 
+// Load environment variables from .env file (for local development)
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
+
 const { onRequest } = require('firebase-functions/v2/https');
 const { initializeApp } = require('firebase-admin/app');
 const { getFirestore } = require('firebase-admin/firestore');
@@ -77,6 +82,7 @@ exports.chatWithAI = onRequest(
     cors: true,
     memory: '512MiB',
     timeoutSeconds: 60,
+    secrets: ['OPENAI_API_KEY'], // Declare secret for Firebase Functions v2
   },
   async (req, res) => {
     // Handle CORS
